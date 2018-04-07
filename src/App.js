@@ -63,7 +63,7 @@ class TransactionForm extends React.Component {
   }
 }
 
-const Transaction = ({ transaction, transactionIndex }) => {
+const Transaction = ({ transaction, transactionIndex, whoami }) => {
   const finalize = async () => {
     const web3 = await getWeb3();
     const [from] = await web3.eth.getAccounts();
@@ -76,6 +76,20 @@ const Transaction = ({ transaction, transactionIndex }) => {
         alert('Transaction finalized!');
       });
   }
+
+  const veto = () => {
+    alert('VETO!');
+  }
+
+  const renderButtons = () => {
+    return (
+      <React.Fragment>
+        (whoami === 'manager' ? <button className="btn btn-primary" onClick={finalize}>🏁 Finalize</button> : null)
+        <button className="btn btn-danger" onClick={veto}>👎 Veto this</button>
+      </React.Fragment>
+    );
+  }
+
   return (
     <li className="bv-transaction-item">
       <p className="bv-transaction-item--amount">
@@ -83,7 +97,7 @@ const Transaction = ({ transaction, transactionIndex }) => {
       </p>
       <p>{transaction.description}</p>
       <p>{transaction.recipient}</p>
-      {transaction.complete ? <SuccessStatus /> : <button className="btn btn-primary" onClick={finalize}>Finalize</button>}
+      {transaction.complete ? <SuccessStatus /> : renderButtons() }
     </li>
   );
 };
@@ -174,7 +188,7 @@ class App extends Component {
           : <span>Managers can request spendings, you only can vote on them</span>
         }
         <hr />
-        <TransactionsList transactions={this.state.transactions} />
+        <TransactionsList transactions={this.state.transactions} whoami={this.state.whoami} />
       </div>
     );
   }
