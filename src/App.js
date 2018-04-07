@@ -153,7 +153,11 @@ class App extends Component {
         </div>
         <b>You are {this.state.whoami === 'manager' ? 'manager' : 'investor'}.</b>
         <hr/>
-        {this.state.whoami === 'manager' ? <TransactionForm />: null}
+        {
+          this.state.whoami === 'manager'
+          ? <TransactionForm />
+          : <span>Managers can request spendings, you only can vote on them.</span>
+        }
         <hr />
         <TransactionsList transactions={this.state.transactions} />
       </div>
