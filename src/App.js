@@ -30,30 +30,32 @@ class TransactionForm extends React.Component {
 
   render() {
     return (
-      <form className="col-md-6 col-md-offset-3" onSubmit={this.handleSubmit}>
-        <h2>
-          Spendings<br />
-          <small>Put your spendings in the form</small>
-        </h2>
-        <div className="form-group">
-          <label htmlFor="absense">Amount</label>
-          <input className="form-control" id="amount" name="amount" required type="number" /> ETH
-        </div>
-        <div className="form-group">
-          <label htmlFor="receiveaddress">Receive Address</label>
-          <input className="form-control" id="receiveaddress" name="receiveaddress" required type="text" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="description">Description</label>
-          <textarea className="form-control" id="description" name="description" required type="text" />
-        </div>
+      <div className="row">
+        <form className="col-xs-12" onSubmit={this.handleSubmit}>
+          <h2>
+            Spendings<br />
+            <small>Put your spendings in the form</small>
+          </h2>
+          <div className="form-group">
+            <label htmlFor="absense">Amount</label>
+            <input className="form-control" id="amount" name="amount" required type="number" /> ETH
+          </div>
+          <div className="form-group">
+            <label htmlFor="receiveaddress">Receive Address</label>
+            <input className="form-control" id="receiveaddress" name="receiveaddress" required type="text" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="description">Description</label>
+            <textarea className="form-control" id="description" name="description" required type="text" />
+          </div>
 
-        <div className="col-md-12">
-          <button id="requestSpending" type="submit" className="btn btn-lg btn-primary">
-            Request spending
-          </button>
-        </div>
-      </form>
+          <div className="col-md-12">
+            <button id="requestSpending" type="submit" className="btn btn-lg btn-primary">
+              Request spending
+            </button>
+          </div>
+        </form>
+      </div>
     );
   }
 }
@@ -85,10 +87,12 @@ const FailureStatus = () => (
 
 const TransactionsList = ({ transactions }) => {
   return (
-    <div className="container">
+    <div>
       <div className="row">
         <div className="col-xs-12">
-          <h1>Transactions</h1>
+          <h2>Transactions<br/>
+            <small>Here's what happened so far</small>
+          </h2>
         </div>
       </div>
       <div className="row">
@@ -125,8 +129,12 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="App container">
+        <div class="page-header">
+          <h1>BlockVeto</h1>
+        </div>
         <TransactionForm />
+        <hr />
         <TransactionsList transactions={this.state.transactions} />
       </div>
     );
