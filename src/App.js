@@ -77,14 +77,23 @@ const Transaction = ({ transaction, transactionIndex, whoami }) => {
       });
   }
 
-  const veto = () => {
-    alert('VETO!');
+  const veto = async () => {
+    const web3 = await getWeb3();
+    const [from] = await web3.eth.getAccounts();
+    const contract = new web3.eth.Contract(contractAbi, CONTRACT_ADDRESS);
+    contract.setProvider(web3.currentProvider);
+    contract.methods
+      .vetoRequest(transactionIndex)
+      .send({ from: from })
+      .on('transactionHash', txHash => {
+        alert('Transaction finalized!');
+      });
   }
 
   const renderButtons = () => {
     return (
       <React.Fragment>
-        (whoami === 'manager' ? <button className="btn btn-primary" onClick={finalize}>🏁 Finalize</button> : null)
+        {whoami === 'manager' ? <React.Fragment><button className="btn btn-primary" onClick={finalize}>🏁 Finalize</button>{' '}</React.Fragment> : null}
         <button className="btn btn-danger" onClick={veto}>👎 Veto this</button>
       </React.Fragment>
     );
@@ -114,7 +123,7 @@ const FailureStatus = () => (
   </div>
 );
 
-const TransactionsList = ({ transactions }) => {
+const TransactionsList = ({ transactions, whoami }) => {
   return (
     <div>
       <div className="row">
@@ -128,7 +137,7 @@ const TransactionsList = ({ transactions }) => {
         <div className="col-xs-12">
           <ul className="list-unstyled">
             {transactions.map((transaction, index) => (
-              <Transaction key={index} transaction={transaction} transactionIndex={index} />
+              <Transaction key={index} transaction={transaction} transactionIndex={index} whoami={whoami} />
             ))}
           </ul>
         </div>
