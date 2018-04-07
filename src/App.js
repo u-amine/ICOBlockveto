@@ -30,6 +30,22 @@ const TransactionForm = () => {
   );
 };
 
+const Transaction = ({ status }) => {
+  const color = status === 'success' ? 'green' : 'red';
+  return (
+    <li className="bv-transaction-item">
+      <p className="bv-transaction-item--amount">
+        <b style={{ color: color }}>10 ETH</b>
+      </p>
+      <p>For a pc</p>
+      <p>0x8d12a197cb00d4747a1fe03395095c0000000000</p>
+      <div className="bv-transaction-item--status" style={{ color: color }}>
+        {status === 'success' ? '✓' : 'x'}
+      </div>
+    </li>
+  );
+};
+
 const TransactionsList = () => {
   return (
     <div className="container">
@@ -41,14 +57,9 @@ const TransactionsList = () => {
       <div className="row">
         <div className="col-xs-12">
           <ul className="list-unstyled">
-            <li className="bv-transaction-item">
-              <p className="bv-transaction-item--amount">
-                <b>10 ETH</b>
-              </p>
-              <p>For a pc</p>
-              <p>0x8d12a197cb00d4747a1fe03395095c0000000000</p>
-              <div className="bv-transaction-item--status">✓</div>
-            </li>
+            <Transaction status="success" />
+            <Transaction status="failure" />
+            <Transaction status="success" />
           </ul>
         </div>
       </div>
