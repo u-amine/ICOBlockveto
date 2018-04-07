@@ -163,7 +163,7 @@ class App extends Component {
   render() {
     return (
       <div className="App container">
-        <div class="page-header">
+        <div className="page-header">
           <h1>BlockVeto</h1>
         </div>
         <b>You are {this.state.whoami === 'manager' ? 'a manager' : 'an investor'}</b>
