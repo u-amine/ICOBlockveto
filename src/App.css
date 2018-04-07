@@ -1,28 +1,17 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
+.bv-transaction-item {
   padding: 20px;
-  color: white;
+  background: #eee;
+  position: relative;
 }
 
-.App-title {
-  font-size: 1.5em;
+.bv-transaction-item--amount {
+  font-size: 20px;
 }
 
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.bv-transaction-item--status {
+  position: absolute;
+  font-size: 50px;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
 }
