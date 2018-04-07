@@ -146,6 +146,12 @@ const TransactionsList = ({ transactions, whoami }) => {
   );
 };
 
+const ContributeButton = () => (
+  <button className="btn btn-warning btn-block">
+    💸 Contribute ETH
+  </button>
+);
+
 class App extends Component {
   state = {
     transactions: []
@@ -186,17 +192,24 @@ class App extends Component {
   render() {
     return (
       <div className="App container">
-        <div className="page-header">
-          <h1>BlockVeto</h1>
+        <div class="col-xs-9">
+          <div className="page-header">
+            <h1>BlockVeto</h1>
+          </div>
+          <b>You are {this.state.whoami === 'manager' ? 'a manager' : 'an investor'}</b>
+          <hr/>
+          {
+            this.state.whoami === 'manager'
+            ? <TransactionForm />
+            : <span>Managers can request spendings, you only can vote on them</span>
+          }
+          <hr />
+          <ContributeButton />
         </div>
-        <b>You are {this.state.whoami === 'manager' ? 'a manager' : 'an investor'}</b>
-        <hr/>
-        {
-          this.state.whoami === 'manager'
-          ? <TransactionForm />
-          : <span>Managers can request spendings, you only can vote on them</span>
-        }
-        <hr />
+        <p/>
+        <p/>
+        <p/>
+        <p/>
         <TransactionsList transactions={this.state.transactions} whoami={this.state.whoami} />
       </div>
     );
