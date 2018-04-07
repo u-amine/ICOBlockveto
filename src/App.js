@@ -17,13 +17,14 @@ class TransactionForm extends React.Component {
     const description = data.get('description');
     const receiverAddress = data.get('receiveaddress');
     const ammount = data.get('amount');
+    const ammountInGwei = ammount * 10 ** 18
 
     const web3 = await getWeb3();
     const [from] = await web3.eth.getAccounts();
     const contract = new web3.eth.Contract(contractAbi, CONTRACT_ADDRESS);
     contract.setProvider(web3.currentProvider);
     contract.methods
-      .createRequest(description, ammount, receiverAddress)
+      .createRequest(description, ammountInGwei, receiverAddress)
       .send({ from: from })
       .on('transactionHash', txHash => {
         alert('Transaction started!');
@@ -40,7 +41,7 @@ class TransactionForm extends React.Component {
           </h2>
           <div className="form-group">
             <label htmlFor="absense">Amount</label>
-            <input className="form-control" id="amount" name="amount" required type="number" /> ETH
+            <input className="form-control" id="amount" name="amount" required type="number" step="0.001" /> ETH
           </div>
           <div className="form-group">
             <label htmlFor="receiveaddress">Receive Address</label>
@@ -62,7 +63,19 @@ class TransactionForm extends React.Component {
   }
 }
 
-const Transaction = ({ status, transaction }) => {
+const Transaction = ({ transaction, transactionIndex }) => {
+  const finalize = async () => {
+    const web3 = await getWeb3();
+    const [from] = await web3.eth.getAccounts();
+    const contract = new web3.eth.Contract(contractAbi, CONTRACT_ADDRESS);
+    contract.setProvider(web3.currentProvider);
+    contract.methods
+      .finalizeRequest(transactionIndex)
+      .send({ from: from })
+      .on('transactionHash', txHash => {
+        alert('Transaction finalized!');
+      });
+  }
   return (
     <li className="bv-transaction-item">
       <p className="bv-transaction-item--amount">
@@ -70,7 +83,7 @@ const Transaction = ({ status, transaction }) => {
       </p>
       <p>{transaction.description}</p>
       <p>{transaction.recipient}</p>
-      {status}
+      {transaction.complete ? <SuccessStatus /> : <button className="btn btn-primary" onClick={finalize}>Finalize</button>}
     </li>
   );
 };
@@ -100,7 +113,9 @@ const TransactionsList = ({ transactions }) => {
       <div className="row">
         <div className="col-xs-12">
           <ul className="list-unstyled">
-            {transactions.map((transaction, index) => <Transaction key={index} transaction={transaction} status={<SuccessStatus />} />)}
+            {transactions.map((transaction, index) => (
+              <Transaction key={index} transaction={transaction} transactionIndex={index} />
+            ))}
           </ul>
         </div>
       </div>
@@ -127,7 +142,7 @@ class App extends Component {
     const transactions = await Promise.all(
       Array.from({ length: requestsCount }).map((_, index) => contract.methods.requests(index).call())
     );
-    this.setState({transactions: transactions})
+    this.setState({ transactions: transactions });
   };
 
 
