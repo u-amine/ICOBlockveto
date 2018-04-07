@@ -47,7 +47,6 @@ contract Blockveto {
 
     function createRequest(string description, uint value, address recipient) public restricted {
         require(value > 0);
-        value = value * 1000000000000000000;
         if (value > limit) {
             Request memory newRequest = Request({
                 description: description,
