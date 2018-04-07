@@ -158,7 +158,7 @@ const ContributeButton = () => {
       .contribute()
       .send({
         from: from,
-        value: web3.utils.toWei("1")
+        value: web3.utils.toWei("0.1")
       })
       .on('transactionHash', txHash => {
         alert('Contribution finalized!');
@@ -167,7 +167,7 @@ const ContributeButton = () => {
 
   return (
     <button className="btn btn-warning btn-block" onClick={contribute}>
-      💸 Contribute 1 ETH
+      💸 Contribute 0.1 ETH
     </button>
   );
 };
