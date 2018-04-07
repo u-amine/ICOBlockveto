@@ -87,7 +87,7 @@ const Transaction = ({ transaction, transactionIndex, whoami }) => {
       .vetoRequest(transactionIndex)
       .send({ from: from })
       .on('transactionHash', txHash => {
-        alert('Transaction finalized!');
+        alert('Veto finalized!');
       });
   }
 
