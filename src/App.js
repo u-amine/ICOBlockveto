@@ -23,7 +23,9 @@ class TransactionForm extends React.Component {
     contract.methods
       .createRequest(description, ammount, receiverAddress)
       .send({ from: from })
-      .on('transactionHash', txHash => { alert('Transaction started!') });
+      .on('transactionHash', txHash => {
+        alert('Transaction started!');
+      });
   };
 
   render() {
@@ -56,14 +58,14 @@ class TransactionForm extends React.Component {
   }
 }
 
-const Transaction = ({ status }) => {
+const Transaction = ({ status, transaction }) => {
   return (
     <li className="bv-transaction-item">
       <p className="bv-transaction-item--amount">
-        <b>10 ETH</b>
+        <b>{transaction.value * 10 ** -18} ETH</b>
       </p>
-      <p>For a pc</p>
-      <p>0x8d12a197cb00d4747a1fe03395095c0000000000</p>
+      <p>{transaction.description}</p>
+      <p>{transaction.recipient}</p>
       {status}
     </li>
   );
@@ -81,7 +83,7 @@ const FailureStatus = () => (
   </div>
 );
 
-const TransactionsList = () => {
+const TransactionsList = ({ transactions }) => {
   return (
     <div className="container">
       <div className="row">
@@ -92,9 +94,7 @@ const TransactionsList = () => {
       <div className="row">
         <div className="col-xs-12">
           <ul className="list-unstyled">
-            <Transaction status={<SuccessStatus />} />
-            <Transaction status={<FailureStatus />} />
-            <Transaction status={<SuccessStatus />} />
+            {transactions.map((transaction, index) => <Transaction key={index} transaction={transaction} status={<SuccessStatus />} />)}
           </ul>
         </div>
       </div>
@@ -103,11 +103,31 @@ const TransactionsList = () => {
 };
 
 class App extends Component {
+  state = {
+    transactions: []
+  };
+
+  componentDidMount() {
+    this.getTransactions();
+  }
+
+  getTransactions = async () => {
+    const web3 = await getWeb3();
+    const [from] = await web3.eth.getAccounts();
+    const contract = new web3.eth.Contract(contractAbi, '0xb6163aa9130c019fa4b6f58e0024a44d71181393');
+    contract.setProvider(web3.currentProvider);
+    const requestsCount = await contract.methods.getRequestsCount().call();
+    const transactions = await Promise.all(
+      Array.from({ length: requestsCount }).map((_, index) => contract.methods.requests(index).call())
+    );
+    this.setState({transactions: transactions})
+  };
+
   render() {
     return (
       <div className="App">
         <TransactionForm />
-        <TransactionsList />
+        <TransactionsList transactions={this.state.transactions} />
       </div>
     );
   }
