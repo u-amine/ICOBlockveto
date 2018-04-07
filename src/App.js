@@ -3,7 +3,7 @@ import './App.css';
 import getWeb3 from './web3';
 import contractAbi from './abi.json';
 
-const CONTRACT_ADDRESS = '0x3bcbe608eb6c26298d5144c7ab58a7c1b2949145';
+const CONTRACT_ADDRESS = '0x6c770ed282ba355dcc8133be48ff7236249d0518';
 
 class TransactionForm extends React.Component {
   constructor() {
@@ -17,7 +17,7 @@ class TransactionForm extends React.Component {
     const description = data.get('description');
     const receiverAddress = data.get('receiveaddress');
     const ammount = data.get('amount');
-    const ammountInGwei = ammount * 10 ** 18
+    const ammountInGwei = ammount * 10 ** 18;
 
     const web3 = await getWeb3();
     const [from] = await web3.eth.getAccounts();
@@ -53,6 +53,7 @@ class TransactionForm extends React.Component {
           </div>
 
           <div className="col-md-12">
+            <p>Contract balance: {this.props.contractBalance * 10 ** -18} ETH</p>
             <button id="requestSpending" type="submit" className="btn btn-lg btn-primary">
               Request spending
             </button>
@@ -75,7 +76,7 @@ const Transaction = ({ transaction, transactionIndex, whoami }) => {
       .on('transactionHash', txHash => {
         alert('Transaction finalized!');
       });
-  }
+  };
 
   const veto = async () => {
     const web3 = await getWeb3();
@@ -88,16 +89,26 @@ const Transaction = ({ transaction, transactionIndex, whoami }) => {
       .on('transactionHash', txHash => {
         alert('Veto finalized!');
       });
-  }
+  };
 
   const renderButtons = () => {
     return (
       <React.Fragment>
-        {whoami === 'manager' ? <React.Fragment><button className="btn btn-primary" onClick={finalize}>🏁 Finalize</button>{' '}</React.Fragment> : null}
-        <button className="btn btn-danger" onClick={veto}>👎 Veto this</button>
+        {whoami === 'manager' ? (
+          <React.Fragment>
+            <button className="btn btn-primary" onClick={finalize}>
+              🏁 Finalize
+            </button>{' '}
+          </React.Fragment>
+        ) : null}
+        {transaction.value >= 1000000000000000000 && (
+          <button className="btn btn-danger" onClick={veto}>
+            👎 Veto this
+          </button>
+        )}
       </React.Fragment>
     );
-  }
+  };
 
   return (
     <li className="bv-transaction-item">
@@ -106,7 +117,8 @@ const Transaction = ({ transaction, transactionIndex, whoami }) => {
       </p>
       <p>{transaction.description}</p>
       <p>{transaction.recipient}</p>
-      {transaction.complete ? <SuccessStatus /> : renderButtons() }
+      <p>Approve Percentage: {transaction.approvePercentage}%</p>
+      {transaction.complete ? <SuccessStatus /> : transaction.approvePercentage >= 50 ? renderButtons() : <FailureStatus />}
     </li>
   );
 };
@@ -128,7 +140,8 @@ const TransactionsList = ({ transactions, whoami }) => {
     <div>
       <div className="row">
         <div className="col-xs-12">
-          <h2>Transactions<br/>
+          <h2>
+            Transactions<br />
             <small>Here's what happened so far</small>
           </h2>
         </div>
@@ -147,7 +160,6 @@ const TransactionsList = ({ transactions, whoami }) => {
 };
 
 const ContributeButton = () => {
-
   const contribute = async () => {
     const web3 = await getWeb3();
     const [from] = await web3.eth.getAccounts();
@@ -157,12 +169,12 @@ const ContributeButton = () => {
       .contribute()
       .send({
         from: from,
-        value: web3.utils.toWei("0.1")
+        value: web3.utils.toWei('0.1')
       })
       .on('transactionHash', txHash => {
         alert('Contribution finalized!');
       });
-  }
+  };
 
   return (
     <button className="btn btn-warning btn-block" onClick={contribute}>
@@ -179,7 +191,16 @@ class App extends Component {
   componentDidMount() {
     this.getTransactions();
     this.whoAmI();
+    this.getContractBalance();
   }
+
+  getContractBalance = async () => {
+    const web3 = await getWeb3();
+    const contract = new web3.eth.Contract(contractAbi, CONTRACT_ADDRESS);
+    contract.setProvider(web3.currentProvider);
+    const { 0: contractBalance } = await contract.methods.getSummary().call();
+    this.setState({ contractBalance });
+  };
 
   getTransactions = async () => {
     const web3 = await getWeb3();
@@ -193,7 +214,6 @@ class App extends Component {
     this.setState({ transactions: transactions.reverse() });
   };
 
-
   whoAmI = async () => {
     const web3 = await getWeb3();
     const [from] = await web3.eth.getAccounts();
@@ -202,9 +222,9 @@ class App extends Component {
     const manager = await contract.methods.manager().call();
 
     if (manager === from) {
-      this.setState({whoami: 'manager'})
+      this.setState({ whoami: 'manager' });
     } else {
-      this.setState({whoami: 'investor'})
+      this.setState({ whoami: 'investor' });
     }
   };
 
@@ -216,19 +236,19 @@ class App extends Component {
             <h1>BlockVeto</h1>
           </div>
           <b>You are {this.state.whoami === 'manager' ? 'a manager' : 'an investor'}</b>
-          <hr/>
-          {
-            this.state.whoami === 'manager'
-            ? <TransactionForm />
-            : <span>Managers can request spendings, you only can vote on them</span>
-          }
+          <hr />
+          {this.state.whoami === 'manager' ? (
+            <TransactionForm contractBalance={this.state.contractBalance}/>
+          ) : (
+            <span>Managers can request spendings, you only can vote on them</span>
+          )}
           <hr />
           <ContributeButton />
         </div>
-        <p/>
-        <p/>
-        <p/>
-        <p/>
+        <p />
+        <p />
+        <p />
+        <p />
         <TransactionsList transactions={this.state.transactions} whoami={this.state.whoami} />
       </div>
     );
