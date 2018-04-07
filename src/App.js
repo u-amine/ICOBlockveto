@@ -151,12 +151,12 @@ class App extends Component {
         <div class="page-header">
           <h1>BlockVeto</h1>
         </div>
-        <b>You are {this.state.whoami === 'manager' ? 'manager' : 'investor'}.</b>
+        <b>You are {this.state.whoami === 'manager' ? 'a manager' : 'an investor'}</b>
         <hr/>
         {
           this.state.whoami === 'manager'
           ? <TransactionForm />
-          : <span>Managers can request spendings, you only can vote on them.</span>
+          : <span>Managers can request spendings, you only can vote on them</span>
         }
         <hr />
         <TransactionsList transactions={this.state.transactions} />
