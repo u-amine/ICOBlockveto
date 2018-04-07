@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import web3 from 'web3';
 import getWeb3 from './web3';
 import contractAbi from './abi.json';
 
@@ -157,7 +158,7 @@ const ContributeButton = () => {
       .contribute()
       .send({
         from: from,
-        value: 1
+        value: web3.utils.toWei("1")
       })
       .on('transactionHash', txHash => {
         alert('Contribution finalized!');
@@ -166,7 +167,7 @@ const ContributeButton = () => {
 
   return (
     <button className="btn btn-warning btn-block" onClick={contribute}>
-      💸 Contribute ETH
+      💸 Contribute 1 ETH
     </button>
   );
 };
