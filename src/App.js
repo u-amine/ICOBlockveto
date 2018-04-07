@@ -1,33 +1,57 @@
 import React, { Component } from 'react';
 import './App.css';
+import getWeb3 from './web3';
 
-const TransactionForm = () => {
-  return (
-    <form class="col-md-6 col-md-offset-3">
-      <h2>
-        Spendings<br />
-        <small>Put your spendings in the form</small>
-      </h2>
-      <div className="form-group">
-        <label htmlFor="absense">Amount</label>
-        <input className="form-control" name="amount" required="" type="number" /> ETH
-      </div>
-      <div className="form-group">
-        <label htmlFor="receiveaddress">Receive Address</label>
-        <input className="form-control" name="receiveaddress" required="" type="text" />
-      </div>
-      <div className="form-group">
-        <label htmlFor="description">Description</label>
-        <textarea className="form-control" name="description" required="" type="text" />
-      </div>
+class TransactionForm extends React.Component {
+  constructor() {
+    super();
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-      <div className="col-md-12">
-        <button id="requestSpending" type="button" className="btn btn-lg btn-primary">
-          Request spending
-        </button>
-      </div>
-    </form>
-  );
+  handleSubmit(event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+
+    console.log('description', data.getAll('description'));
+    console.log('receiveaddress', data.getAll('receiveaddress'));
+    console.log('amount', data.getAll('amount'));
+
+    getWeb3().then((web3) => {
+      web3.eth.getAccounts().then((accounts) => {
+        console.log(web3);
+        debugger
+      })
+    })
+  }
+
+  render () {
+    return (
+      <form className="col-md-6 col-md-offset-3" onSubmit={this.handleSubmit}>
+        <h2>
+          Spendings<br />
+          <small>Put your spendings in the form</small>
+        </h2>
+        <div className="form-group">
+          <label htmlFor="absense">Amount</label>
+          <input className="form-control" id="amount" name="amount" required type="number" /> ETH
+        </div>
+        <div className="form-group">
+          <label htmlFor="receiveaddress">Receive Address</label>
+          <input className="form-control" id="receiveaddress" name="receiveaddress" required type="text" />
+        </div>
+        <div className="form-group">
+          <label htmlFor="description">Description</label>
+          <textarea className="form-control" id="description" name="description" required type="text" />
+        </div>
+
+        <div className="col-md-12">
+          <button id="requestSpending" type="submit" className="btn btn-lg btn-primary">
+            Request spending
+          </button>
+        </div>
+      </form>
+    );
+  };
 };
 
 const Transaction = ({ status }) => {
