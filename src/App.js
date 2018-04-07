@@ -157,7 +157,7 @@ const ContributeButton = () => {
       .contribute()
       .send({
         from: from,
-        value: 0.001
+        value: 1
       })
       .on('transactionHash', txHash => {
         alert('Contribution finalized!');
