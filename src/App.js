@@ -3,7 +3,7 @@ import './App.css';
 import getWeb3 from './web3';
 import contractAbi from './abi.json';
 
-const CONTRACT_ADDRESS = '0xda9d643b264d969788adFC01E22c8b3E2E8D18E1';
+const CONTRACT_ADDRESS = '0xb52305d3acfeecd1ed33e0910dac0d385e1d6158';
 
 class TransactionForm extends React.Component {
   constructor() {
