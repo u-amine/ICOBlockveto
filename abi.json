@@ -3,56 +3,6 @@
 		"constant": false,
 		"inputs": [
 			{
-				"name": "investor",
-				"type": "address"
-			}
-		],
-		"name": "calculateStake",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "contribute",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "description",
-				"type": "string"
-			},
-			{
-				"name": "value",
-				"type": "uint256"
-			},
-			{
-				"name": "recipient",
-				"type": "address"
-			}
-		],
-		"name": "createRequest",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
 				"name": "index",
 				"type": "uint256"
 			}
@@ -64,34 +14,14 @@
 		"type": "function"
 	},
 	{
-		"constant": false,
+		"constant": true,
 		"inputs": [
 			{
-				"name": "index",
-				"type": "uint256"
-			}
-		],
-		"name": "vetoRequest",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"name": "creator",
+				"name": "",
 				"type": "address"
 			}
 		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "approvePercentage",
+		"name": "stakeOfInvestors",
 		"outputs": [
 			{
 				"name": "",
@@ -105,7 +35,7 @@
 	{
 		"constant": true,
 		"inputs": [],
-		"name": "calculateSum",
+		"name": "investorsCount",
 		"outputs": [
 			{
 				"name": "",
@@ -120,6 +50,20 @@
 		"constant": true,
 		"inputs": [],
 		"name": "getRequestsCount",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "stake",
 		"outputs": [
 			{
 				"name": "",
@@ -159,7 +103,7 @@
 	{
 		"constant": true,
 		"inputs": [],
-		"name": "indexOfInvestor",
+		"name": "sumInvestments",
 		"outputs": [
 			{
 				"name": "",
@@ -172,13 +116,36 @@
 	},
 	{
 		"constant": true,
-		"inputs": [
+		"inputs": [],
+		"name": "manager",
+		"outputs": [
 			{
 				"name": "",
 				"type": "address"
 			}
 		],
-		"name": "investments",
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "vetoRequest",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "indexOfInvestor",
 		"outputs": [
 			{
 				"name": "",
@@ -202,67 +169,6 @@
 			{
 				"name": "",
 				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "investorsAddress",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "investorsCount",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "limit",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "manager",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
 			}
 		],
 		"payable": false,
@@ -306,6 +212,14 @@
 			{
 				"name": "vetoed",
 				"type": "bool"
+			},
+			{
+				"name": "approvePercentage",
+				"type": "uint256"
+			},
+			{
+				"name": "vetoable",
+				"type": "bool"
 			}
 		],
 		"payable": false,
@@ -313,9 +227,31 @@
 		"type": "function"
 	},
 	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"name": "value",
+				"type": "uint256"
+			},
+			{
+				"name": "recipient",
+				"type": "address"
+			}
+		],
+		"name": "createRequest",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"constant": true,
 		"inputs": [],
-		"name": "stake",
+		"name": "timeFrame",
 		"outputs": [
 			{
 				"name": "",
@@ -334,7 +270,7 @@
 				"type": "address"
 			}
 		],
-		"name": "stakeOfInvestors",
+		"name": "investments",
 		"outputs": [
 			{
 				"name": "",
@@ -348,7 +284,7 @@
 	{
 		"constant": true,
 		"inputs": [],
-		"name": "sumInvestments",
+		"name": "limit",
 		"outputs": [
 			{
 				"name": "",
@@ -360,17 +296,47 @@
 		"type": "function"
 	},
 	{
-		"constant": true,
+		"constant": false,
 		"inputs": [],
-		"name": "timeFrame",
+		"name": "contribute",
 		"outputs": [
 			{
 				"name": "",
 				"type": "uint256"
 			}
 		],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "investorsAddress",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
 		"payable": false,
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"name": "creator",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
 	}
 ]
