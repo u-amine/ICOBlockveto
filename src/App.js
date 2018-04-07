@@ -190,7 +190,7 @@ class App extends Component {
     const transactions = await Promise.all(
       Array.from({ length: requestsCount }).map((_, index) => contract.methods.requests(index).call())
     );
-    this.setState({ transactions: transactions });
+    this.setState({ transactions: transactions.reverse() });
   };
 
 
