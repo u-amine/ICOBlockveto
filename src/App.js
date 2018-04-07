@@ -211,7 +211,7 @@ class App extends Component {
   render() {
     return (
       <div className="App container">
-        <div class="col-xs-9">
+        <div className="col-xs-9">
           <div className="page-header">
             <h1>BlockVeto</h1>
           </div>
