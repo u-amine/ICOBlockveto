@@ -155,9 +155,12 @@ const ContributeButton = () => {
     contract.setProvider(web3.currentProvider);
     contract.methods
       .contribute()
-      .send({ from: from })
+      .send({
+        from: from,
+        value: 0.001
+      })
       .on('transactionHash', txHash => {
-        alert('Contributeion finalized!');
+        alert('Contribution finalized!');
       });
   }
 
