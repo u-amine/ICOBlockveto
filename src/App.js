@@ -113,6 +113,7 @@ class App extends Component {
 
   componentDidMount() {
     this.getTransactions();
+    this.whoAmI();
   }
 
   getTransactions = async () => {
@@ -127,13 +128,30 @@ class App extends Component {
     this.setState({transactions: transactions})
   };
 
+
+  whoAmI = async () => {
+    const web3 = await getWeb3();
+    const [from] = await web3.eth.getAccounts();
+    const contract = new web3.eth.Contract(contractAbi, '0xb6163aa9130c019fa4b6f58e0024a44d71181393');
+    contract.setProvider(web3.currentProvider);
+    const manager = await contract.methods.manager().call();
+
+    if (manager === from) {
+      this.setState({whoami: 'manager'})
+    } else {
+      this.setState({whoami: 'investor'})
+    }
+  };
+
   render() {
     return (
       <div className="App container">
         <div class="page-header">
           <h1>BlockVeto</h1>
         </div>
-        <TransactionForm />
+        <b>You are {this.state.whoami === 'manager' ? 'manager' : 'investor'}.</b>
+        <hr/>
+        {this.state.whoami === 'manager' ? <TransactionForm />: null}
         <hr />
         <TransactionsList transactions={this.state.transactions} />
       </div>
