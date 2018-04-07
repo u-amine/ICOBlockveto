@@ -15,6 +15,7 @@ const updateWeb3 = () => {
 };
 
 export default () => {
+  if(web3Promise) return web3Promise;
   web3Promise = new Promise(resolve => {
     web3PromiseResolve = resolve;
     if (newWeb3) {
