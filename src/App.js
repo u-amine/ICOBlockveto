@@ -146,11 +146,27 @@ const TransactionsList = ({ transactions, whoami }) => {
   );
 };
 
-const ContributeButton = () => (
-  <button className="btn btn-warning btn-block">
-    💸 Contribute ETH
-  </button>
-);
+const ContributeButton = () => {
+
+  const contribute = async () => {
+    const web3 = await getWeb3();
+    const [from] = await web3.eth.getAccounts();
+    const contract = new web3.eth.Contract(contractAbi, CONTRACT_ADDRESS);
+    contract.setProvider(web3.currentProvider);
+    contract.methods
+      .contribute()
+      .send({ from: from })
+      .on('transactionHash', txHash => {
+        alert('Contributeion finalized!');
+      });
+  }
+
+  return (
+    <button className="btn btn-warning btn-block" onClick={contribute}>
+      💸 Contribute ETH
+    </button>
+  );
+};
 
 class App extends Component {
   state = {
