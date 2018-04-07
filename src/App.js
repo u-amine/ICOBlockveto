@@ -3,6 +3,8 @@ import './App.css';
 import getWeb3 from './web3';
 import contractAbi from './abi.json';
 
+const CONTRACT_ADDRESS = '0xda9d643b264d969788adFC01E22c8b3E2E8D18E1';
+
 class TransactionForm extends React.Component {
   constructor() {
     super();
@@ -18,7 +20,7 @@ class TransactionForm extends React.Component {
 
     const web3 = await getWeb3();
     const [from] = await web3.eth.getAccounts();
-    const contract = new web3.eth.Contract(contractAbi, '0xb6163aa9130c019fa4b6f58e0024a44d71181393');
+    const contract = new web3.eth.Contract(contractAbi, CONTRACT_ADDRESS);
     contract.setProvider(web3.currentProvider);
     contract.methods
       .createRequest(description, ammount, receiverAddress)
@@ -119,7 +121,7 @@ class App extends Component {
   getTransactions = async () => {
     const web3 = await getWeb3();
     const [from] = await web3.eth.getAccounts();
-    const contract = new web3.eth.Contract(contractAbi, '0xb6163aa9130c019fa4b6f58e0024a44d71181393');
+    const contract = new web3.eth.Contract(contractAbi, CONTRACT_ADDRESS);
     contract.setProvider(web3.currentProvider);
     const requestsCount = await contract.methods.getRequestsCount().call();
     const transactions = await Promise.all(
@@ -132,7 +134,7 @@ class App extends Component {
   whoAmI = async () => {
     const web3 = await getWeb3();
     const [from] = await web3.eth.getAccounts();
-    const contract = new web3.eth.Contract(contractAbi, '0xb6163aa9130c019fa4b6f58e0024a44d71181393');
+    const contract = new web3.eth.Contract(contractAbi, CONTRACT_ADDRESS);
     contract.setProvider(web3.currentProvider);
     const manager = await contract.methods.manager().call();
 
