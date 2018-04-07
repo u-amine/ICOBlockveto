@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import getWeb3 from './web3';
+import contractAbi from './abi.json';
 
 class TransactionForm extends React.Component {
   constructor() {
@@ -8,23 +9,24 @@ class TransactionForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(event) {
+  handleSubmit = async event => {
     event.preventDefault();
     const data = new FormData(event.target);
+    const description = data.get('description');
+    const receiverAddress = data.get('receiveaddress');
+    const ammount = data.get('amount');
 
-    console.log('description', data.getAll('description'));
-    console.log('receiveaddress', data.getAll('receiveaddress'));
-    console.log('amount', data.getAll('amount'));
+    const web3 = await getWeb3();
+    const [from] = await web3.eth.getAccounts();
+    const contract = new web3.eth.Contract(contractAbi, '0xb6163aa9130c019fa4b6f58e0024a44d71181393');
+    contract.setProvider(web3.currentProvider);
+    contract.methods
+      .createRequest(description, ammount, receiverAddress)
+      .send({ from: from })
+      .on('transactionHash', txHash => { alert('Transaction started!') });
+  };
 
-    getWeb3().then((web3) => {
-      web3.eth.getAccounts().then((accounts) => {
-        console.log(web3);
-        debugger
-      })
-    })
-  }
-
-  render () {
+  render() {
     return (
       <form className="col-md-6 col-md-offset-3" onSubmit={this.handleSubmit}>
         <h2>
@@ -51,24 +53,33 @@ class TransactionForm extends React.Component {
         </div>
       </form>
     );
-  };
-};
+  }
+}
 
 const Transaction = ({ status }) => {
-  const color = status === 'success' ? 'green' : 'red';
   return (
     <li className="bv-transaction-item">
       <p className="bv-transaction-item--amount">
-        <b style={{ color: color }}>10 ETH</b>
+        <b>10 ETH</b>
       </p>
       <p>For a pc</p>
       <p>0x8d12a197cb00d4747a1fe03395095c0000000000</p>
-      <div className="bv-transaction-item--status" style={{ color: color }}>
-        {status === 'success' ? '✓' : 'x'}
-      </div>
+      {status}
     </li>
   );
 };
+
+const SuccessStatus = () => (
+  <div className="bv-transaction-item--status" style={{ color: 'green' }}>
+    ✓
+  </div>
+);
+
+const FailureStatus = () => (
+  <div className="bv-transaction-item--status" style={{ color: 'red' }}>
+    x
+  </div>
+);
 
 const TransactionsList = () => {
   return (
@@ -81,9 +92,9 @@ const TransactionsList = () => {
       <div className="row">
         <div className="col-xs-12">
           <ul className="list-unstyled">
-            <Transaction status="success" />
-            <Transaction status="failure" />
-            <Transaction status="success" />
+            <Transaction status={<SuccessStatus />} />
+            <Transaction status={<FailureStatus />} />
+            <Transaction status={<SuccessStatus />} />
           </ul>
         </div>
       </div>
