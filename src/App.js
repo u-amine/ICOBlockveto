@@ -51,12 +51,12 @@ class TransactionForm extends React.Component {
             &nbsp;+&nbsp;
             <input className="form-control" id="amount" name="amount" required type="number" step="1" value="50" /> €
             <br/>
-            <button id="requestSpending" type="submit" className="btn btn-block btn-warning">
+            <button id="requestSpending" type="submit" className="btn btn-md btn-warning">
               Determine your recommended additional payment
             </button>
           </div>
           <div className="form-group">
-            <button id="requestSpending" type="submit" className="btn btn-block btn-primary">
+            <button id="requestSpending" type="submit" className="btn btn-block btn-lg btn-primary">
               Start contract
             </button>
           </div>
@@ -216,7 +216,7 @@ class App extends Component {
       <div className="App container">
         <div className="col-xs-9">
           <div className="page-header">
-            <h1>Monthly Invest</h1>
+            <h1>BlockPension</h1>
           </div>
           <TransactionForm />
         </div>
