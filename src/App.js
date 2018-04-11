@@ -46,18 +46,19 @@ class TransactionForm extends React.Component {
             <small>How much do you want to invest this month ?</small>
           </h2>
           <div className="form-group">
-            <label htmlFor="absense">Amount</label>&nbsp;
+            <label htmlFor="absense">Amount (compulsory)</label>&nbsp;
             <input className="form-control disabled" disabled id="amount" name="amount" required type="number" step="1" value="100"/>
-            &nbsp;+&nbsp;
+            &nbsp;+ (for your savings account)&nbsp;
             <input className="form-control" id="amount" name="amount" required type="number" step="1" value="50" /> €
             <br/>
             <button id="requestSpending" type="submit" className="btn btn-md btn-warning">
               Determine your recommended additional payment
             </button>
           </div>
+          Get your DB token:
           <div className="form-group">
             <button id="requestSpending" type="submit" className="btn btn-block btn-lg btn-primary">
-              Start contract
+              Start pension plan
             </button>
           </div>
         </form>
