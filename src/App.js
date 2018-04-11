@@ -3,7 +3,13 @@ import './App.css';
 import getWeb3 from './web3';
 import contractAbi from './abi.json';
 
-const CONTRACT_ADDRESS = '0x3bcbe608eb6c26298d5144c7ab58a7c1b2949145';
+const CONTRACT_ADDRESS = '0x204befc8d8f16cf0732c2eedbdf5ec6f047c3764';
+
+
+// 0xdFB0D1e360D16396a92d1e29908FefA08Eed0EB6
+// 0xdFB0D1e360D16396a92d1e29908FefA08Eed0EB6
+// 0x908fefa08eed0eb6000000000000000000000000
+
 
 class TransactionForm extends React.Component {
   constructor() {
@@ -36,25 +42,22 @@ class TransactionForm extends React.Component {
       <div className="row">
         <form className="col-xs-12" onSubmit={this.handleSubmit}>
           <h2>
-            Spendings<br />
-            <small>Put your spendings in the form</small>
+            Your contribution<br />
+            <small>How much do you want to invest this month ?</small>
           </h2>
           <div className="form-group">
-            <label htmlFor="absense">Amount</label>
-            <input className="form-control" id="amount" name="amount" required type="number" step="0.001" /> ETH
+            <label htmlFor="absense">Amount</label>&nbsp;
+            <input className="form-control disabled" disabled id="amount" name="amount" required type="number" step="1" value="100"/>
+            &nbsp;+&nbsp;
+            <input className="form-control" id="amount" name="amount" required type="number" step="1" value="50" /> €
+            <br/>
+            <button id="requestSpending" type="submit" className="btn btn-block btn-warning">
+              Determine your recommended additional payment
+            </button>
           </div>
           <div className="form-group">
-            <label htmlFor="receiveaddress">Receive Address</label>
-            <input className="form-control" id="receiveaddress" name="receiveaddress" required type="text" />
-          </div>
-          <div className="form-group">
-            <label htmlFor="description">Description</label>
-            <textarea className="form-control" id="description" name="description" required type="text" />
-          </div>
-
-          <div className="col-md-12">
-            <button id="requestSpending" type="submit" className="btn btn-lg btn-primary">
-              Request spending
+            <button id="requestSpending" type="submit" className="btn btn-block btn-primary">
+              Start contract
             </button>
           </div>
         </form>
@@ -213,23 +216,14 @@ class App extends Component {
       <div className="App container">
         <div className="col-xs-9">
           <div className="page-header">
-            <h1>BlockVeto</h1>
+            <h1>Monthly Invest</h1>
           </div>
-          <b>You are {this.state.whoami === 'manager' ? 'a manager' : 'an investor'}</b>
-          <hr/>
-          {
-            this.state.whoami === 'manager'
-            ? <TransactionForm />
-            : <span>Managers can request spendings, you only can vote on them</span>
-          }
-          <hr />
-          <ContributeButton />
+          <TransactionForm />
         </div>
         <p/>
         <p/>
         <p/>
         <p/>
-        <TransactionsList transactions={this.state.transactions} whoami={this.state.whoami} />
       </div>
     );
   }
