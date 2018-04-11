@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import getWeb3 from './web3';
 import contractAbi from './abi.json';
+import {Tab, Tabs, Panel, Table} from 'react-bootstrap';
 
 const CONTRACT_ADDRESS = '0x204befc8d8f16cf0732c2eedbdf5ec6f047c3764';
 
@@ -212,14 +213,44 @@ class App extends Component {
     }
   };
 
-  render() {
-    return (
-      <div className="App container">
-        <div className="col-xs-9">
-          <div className="page-header">
-            <h1>BlockPension</h1>
-          </div>
-          <TransactionForm />
+    render() {
+      return (
+        <div className="App container">
+          <div className="col-xs-9">
+            <div className="page-header">
+              <h1>BlockPension</h1>
+            </div>
+            <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
+              <Tab eventKey={1} title="Contribute">
+                  <TransactionForm />
+              </Tab>
+              <Tab eventKey={2} title="Profile">
+              <br/>
+                <Panel>
+                  <Panel.Heading>Review your current contribution status</Panel.Heading>
+                <Table responsive>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Age</td>
+          <td>67</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Contributed</td>
+          <td>150€</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Received</td>
+          <td>0€</td>
+        </tr>
+      </tbody>
+    </Table>
+                  <Panel.Body>Status is up to date.</Panel.Body>
+                </Panel>
+              </Tab>
+            </Tabs>
         </div>
         <p/>
         <p/>
