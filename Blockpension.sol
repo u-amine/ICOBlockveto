@@ -15,9 +15,15 @@ contract Blockpension {
         uint received; 
     }
     
-    function Blockpension(uint _amount) payable public {
-        user = msg.sender; 
-        amount = _amount * 10 ** 18;
+    function Blockpension(address _address, string _name, uint _contribution, uint _age) payable public {
+        User memory newUser = User({
+            cryptAddress: msg.sender,
+            name: _name,
+            contribution: _contribution * 10 ** 18,
+            age: _age,
+            received: 0
+        });
+        users.push(newUser);
     }
     
     
@@ -28,27 +34,15 @@ contract Blockpension {
         return this.balance;
     }
     
-    function registerRetiredUsers() public{
-        retiredUsers.push(msg.sender);
+    function registerRetiredUsers(address _user) public{
+        retiredUsers.push(_user);
     }
     
     function sendPension() public {
         uint arrayLength = retiredUsers.length;
         for (uint i=0; i<arrayLength; i++) {
-            retiredUsers[i].transfer(amount);
+            retiredUsers[i].transfer(amount/2);
         }
-    }
-    
-    function createUser(address _address, string _name, uint _contribution, uint _age) public {
-        User memory newUser = User({
-            cryptAddress: _address,
-            name: _name,
-            contribution: _contribution,
-            age: _age,
-            received: 0
-        });
-        
-        users.push(newUser);
     }
     
 }
