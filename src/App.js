@@ -167,18 +167,17 @@ const TransactionsList = ({ transactions, whoami }) => {
   );
 };
 
-const ContributeButton = () => {
+const PayoutButton = () => {
 
-  const contribute = async () => {
+  const payout = async () => {
     const web3 = await getWeb3();
     const [from] = await web3.eth.getAccounts();
     const contract = new web3.eth.Contract(contractAbi, CONTRACT_ADDRESS);
     contract.setProvider(web3.currentProvider);
     contract.methods
-      .contribute()
+      .sendPension()
       .send({
-        from: from,
-        value: web3.utils.toWei("0.1")
+        from: from
       })
       .on('transactionHash', txHash => {
         alert('Contribution finalized!');
@@ -186,8 +185,8 @@ const ContributeButton = () => {
   }
 
   return (
-    <button className="btn btn-warning btn-block" onClick={contribute}>
-      💸 Contribute 0.1 ETH
+    <button className="btn btn-warning btn-block" onClick={payout}>
+      💸 Pay out pensions to pensioners
     </button>
   );
 };
@@ -283,6 +282,7 @@ class App extends Component {
                   </tbody>
                 </Table>
                 </Panel>
+                <PayoutButton/>
               </Tab>
             </Tabs>
         </div>
