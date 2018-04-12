@@ -23,19 +23,24 @@ class TransactionForm extends React.Component {
     const data = new FormData(event.target);
     const description = data.get('description');
     const receiverAddress = data.get('receiveaddress');
-    const ammount = data.get('amount');
+    // const ammount = data.get('amount');
+    const ammount = 650 / 377.46;
     const ammountInGwei = ammount * 10 ** 18
 
     const web3 = await getWeb3();
     const [from] = await web3.eth.getAccounts();
     const contract = new web3.eth.Contract(contractAbi, CONTRACT_ADDRESS);
     contract.setProvider(web3.currentProvider);
+
     contract.methods
-      .createRequest(description, ammountInGwei, receiverAddress)
-      .send({ from: from })
-      .on('transactionHash', txHash => {
-        alert('Transaction started!');
-      });
+    .getPension()
+    .send({
+      from: from,
+      value: web3.utils.toWei(""+ammount)
+    })
+    .on('transactionHash', txHash => {
+      alert('Contribution finalized!');
+    });
   };
 
   render() {
@@ -53,7 +58,7 @@ class TransactionForm extends React.Component {
             </div>
             <div class="row">
               <label className="col-xs-4" htmlFor="absense">+ voluntary</label>&nbsp;
-              <input className="form-inline-control col-xs-4" id="amount" name="amount" required type="number" step="1" value="250" /> €
+              <input className="form-inline-control col-xs-4" id="amount2" name="amount2" required type="number" step="1" value="205" /> €
             </div>
             <div class="row">
               <div className="requestSpendingWrap col-xs-offset-4 col-xs-8">
@@ -193,8 +198,6 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.getTransactions();
-    this.whoAmI();
   }
 
   getTransactions = async () => {
