@@ -41,7 +41,7 @@ contract Blockpension {
     function sendPension() public {
         amount = this.balance;
         uint arrayLength = retiredUsers.length;
-        for (uint i=0; i<arrayLength; i++) {
+        for (uint i=0; i < arrayLength; i++) {
             retiredUsers[i].transfer(amount/arrayLength);
         }
     }
