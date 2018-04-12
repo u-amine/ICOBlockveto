@@ -231,23 +231,27 @@ class App extends Component {
                 <Table responsive>
       <tbody>
         <tr>
-          <td>1</td>
-          <td>Age</td>
-          <td>67</td>
+          <td>Name</td>
+          <td>Kim Schmidt</td>
         </tr>
         <tr>
-          <td>2</td>
-          <td>Contributed</td>
-          <td>150€</td>
+          <td>Birth date</td>
+          <td>05.08.1986</td>
         </tr>
         <tr>
-          <td>3</td>
-          <td>Received</td>
-          <td>0€</td>
+          <td>Income</td>
+          <td>2500€</td>
+        </tr>
+        <tr>
+          <td>Pension</td>
+          <td>450€</td>
+        </tr>
+        <tr>
+          <td>Recommended additional contribution</td>
+          <td>205€</td>
         </tr>
       </tbody>
     </Table>
-                  <Panel.Body>Status is up to date.</Panel.Body>
                 </Panel>
               </Tab>
             </Tabs>
