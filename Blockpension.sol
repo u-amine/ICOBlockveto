@@ -15,7 +15,7 @@ contract Blockpension {
         uint received; 
     }
     
-    function Blockpension(address _address, string _name, uint _contribution, uint _age) payable public {
+    function Blockpension(string _name, uint _contribution, uint _age) payable public {
         User memory newUser = User({
             cryptAddress: msg.sender,
             name: _name,
@@ -39,9 +39,10 @@ contract Blockpension {
     }
     
     function sendPension() public {
+        amount = this.balance;
         uint arrayLength = retiredUsers.length;
         for (uint i=0; i<arrayLength; i++) {
-            retiredUsers[i].transfer(amount/2);
+            retiredUsers[i].transfer(amount/arrayLength);
         }
     }
     
