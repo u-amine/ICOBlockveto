@@ -45,19 +45,28 @@ class TransactionForm extends React.Component {
           <h2>
             <small>Your contribution to pension per month</small>
           </h2>
-          <div className="form-group">
-            <label htmlFor="absense">Compulsory amount (18% of your salary)</label>&nbsp;
-            <input className="form-control disabled" disabled id="amount" name="amount" required type="number" step="1" value="450"/>
-            &nbsp;+ voluntary&nbsp;
-            <input className="form-control" id="amount" name="amount" required type="number" step="1" value="205" /> €
-            <br/>
-            <button id="requestSpending" type="submit" className="btn btn-md btn-warning">
-              Calculate your recommended additional pension amount
-            </button>
+          <div className="form-inline-group">
+            <div class="row">
+              <label className="col-xs-4" htmlFor="absense">Compulsory amount<br/> (18% of your salary)</label>&nbsp;
+              <input className="col-xs-4 form-inline-control disabled" disabled id="amount" name="amount" required type="number" step="1" value="450"/> €
+              <div className="col-xs-4">&nbsp;</div>
+            </div>
+            <div class="row">
+              <label className="col-xs-4" htmlFor="absense">+ voluntary</label>&nbsp;
+              <input className="form-inline-control col-xs-4" id="amount" name="amount" required type="number" step="1" value="250" /> €
+            </div>
+            <div class="row">
+              <div className="requestSpendingWrap col-xs-offset-4 col-xs-8">
+                <br/>
+                <button id="requestSpending" type="submit" className="btn btn-block btn-warning">
+                  Calculate your recommended additional pension amount
+                </button>
+              </div>
+            </div>
           </div>
           
           <h2>
-            <small> Get your DB token </small>
+            <small>Get your db TOKEN</small>
           </h2>
           <div className="form-group">
             <button id="requestSpending" type="submit" className="btn btn-block btn-lg btn-primary">
@@ -245,7 +254,7 @@ class App extends Component {
                 </Table>
                 </Panel>
                 <Panel>
-                  <Panel.Heading>Foo</Panel.Heading>
+                  <Panel.Heading>Details</Panel.Heading>
                 <Table responsive>
                   <tbody>
                     <tr>
