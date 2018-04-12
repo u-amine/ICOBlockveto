@@ -43,20 +43,22 @@ class TransactionForm extends React.Component {
       <div className="row">
         <form className="col-xs-12" onSubmit={this.handleSubmit}>
           <h2>
-            Your contribution<br />
-            <small>How much do you want to invest this month ?</small>
+            <small>Your contribution to pension per month</small>
           </h2>
           <div className="form-group">
-            <label htmlFor="absense">Amount (compulsory)</label>&nbsp;
-            <input className="form-control disabled" disabled id="amount" name="amount" required type="number" step="1" value="100"/>
-            &nbsp;+ (for your savings account)&nbsp;
-            <input className="form-control" id="amount" name="amount" required type="number" step="1" value="50" /> €
+            <label htmlFor="absense">Compulsory amount (18% of your salary)</label>&nbsp;
+            <input className="form-control disabled" disabled id="amount" name="amount" required type="number" step="1" value="450"/>
+            &nbsp;+ voluntary&nbsp;
+            <input className="form-control" id="amount" name="amount" required type="number" step="1" value="205" /> €
             <br/>
             <button id="requestSpending" type="submit" className="btn btn-md btn-warning">
-              Determine your recommended additional payment
+              Calculate your recommended additional pension amount
             </button>
           </div>
-          Get your DB token:
+          
+          <h2>
+            <small> Get your DB token </small>
+          </h2>
           <div className="form-group">
             <button id="requestSpending" type="submit" className="btn btn-block btn-lg btn-primary">
               Start pension plan
@@ -226,32 +228,48 @@ class App extends Component {
               </Tab>
               <Tab eventKey={2} title="Profile">
               <br/>
+
                 <Panel>
-                  <Panel.Heading>Review your current contribution status</Panel.Heading>
+                  <Panel.Heading>Contribution status</Panel.Heading>
                 <Table responsive>
-      <tbody>
-        <tr>
-          <td>Name</td>
-          <td>Kim Schmidt</td>
-        </tr>
-        <tr>
-          <td>Birth date</td>
-          <td>05.08.1986</td>
-        </tr>
-        <tr>
-          <td>Income</td>
-          <td>2500€</td>
-        </tr>
-        <tr>
-          <td>Pension</td>
-          <td>450€</td>
-        </tr>
-        <tr>
-          <td>Recommended additional contribution</td>
-          <td>205€</td>
-        </tr>
-      </tbody>
-    </Table>
+                  <tbody>
+                    <tr>
+                      <td>Total contribution until now</td>
+                      <td>655€</td>
+                    </tr>
+                    <tr>
+                      <td>Received pension</td>
+                      <td>0€</td>
+                    </tr>
+                  </tbody>
+                </Table>
+                </Panel>
+                <Panel>
+                  <Panel.Heading>Foo</Panel.Heading>
+                <Table responsive>
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>Kim Schmidt</td>
+                    </tr>
+                    <tr>
+                      <td>Birth date</td>
+                      <td>05.08.1986</td>
+                    </tr>
+                    <tr>
+                      <td>Income</td>
+                      <td>2500€</td>
+                    </tr>
+                    <tr>
+                      <td>Pension</td>
+                      <td>450€</td>
+                    </tr>
+                    <tr>
+                      <td>Paid voluntary contribution</td>
+                      <td>205€</td>
+                    </tr>
+                  </tbody>
+                </Table>
                 </Panel>
               </Tab>
             </Tabs>
