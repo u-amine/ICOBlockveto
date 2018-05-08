@@ -4,12 +4,7 @@ import getWeb3 from './web3';
 import contractAbi from './abi.json';
 import {Tab, Tabs, Panel, Table} from 'react-bootstrap';
 
-const CONTRACT_ADDRESS = '0x204befc8d8f16cf0732c2eedbdf5ec6f047c3764';
-
-
-// 0xdFB0D1e360D16396a92d1e29908FefA08Eed0EB6
-// 0xdFB0D1e360D16396a92d1e29908FefA08Eed0EB6
-// 0x908fefa08eed0eb6000000000000000000000000
+const CONTRACT_ADDRESS = '0x5e72914535f202659083db3a02c984188fa26e9f';
 
 
 class TransactionForm extends React.Component {
